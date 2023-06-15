@@ -1,8 +1,11 @@
 O que estou apreendendo com esse projeto de Locadora de Carros no Laravel
 
 Trabalhar com rotas, grupos e com os verbos HTTP Get, Post, Delete, Put e Patch.
+
 Trabalhar com o motor de renderização de views Blade
+
 Trabalhar com o desenvolvimento incremental de bancos de dados relacionais utilizando Migrations
+
 Criar Seeders e Factories para popular tabelas
 Trabalhar com o console Tinker
 Como manipular e validar formulários
