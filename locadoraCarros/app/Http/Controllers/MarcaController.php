@@ -19,7 +19,7 @@ class MarcaController extends Controller
     {
         //$marcas = Marca::all();
         $marcas = $this->marca->all();
-        return $marcas;
+        return response()->json($marca, 200); 
 
     }
 
@@ -38,7 +38,7 @@ class MarcaController extends Controller
     {
       //$marca = Marca::create($request->all());
       $marca = $this->marca->create($request->all());
-      return $marca; 
+      return response()->json($marca, 201); 
     }
 
     /**
@@ -52,7 +52,7 @@ class MarcaController extends Controller
         if($marca === null){
             return response()->json(['msg' => 'Marca não encontrada'], 404);
         }
-        return $marca;
+        return response()->json($marca, 200);
     }
 
     /**
@@ -76,7 +76,7 @@ class MarcaController extends Controller
            return response()->json(['msg' => 'Impossível realizar a atualização. O recusro solicitado não existe'], 404);
        }
        $marca->update($request->all());
-       return $marca;
+       return  response()->json(['msg' => 'A marca foi atualizada com sucesso'], 200);
     }
 
     /**
@@ -87,8 +87,11 @@ class MarcaController extends Controller
     public function destroy($id)
     {
        $marca = $this->marca->find($id);
+         if($marca === null){
+              return response()->json(['msg' => 'Impossível realizar a exclusão. O recusro solicitado não existe'], 404);
+         }
         $marca->delete();
-       return(['msg' => 'A marca foi deletada com sucesso']);
+       return response()->json(['msg' => 'A marca foi excluída com sucesso'], 200);
 
     }
 }
