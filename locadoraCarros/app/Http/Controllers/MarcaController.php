@@ -59,9 +59,13 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
        $marca = $this->marca->find($id);
+       
        if($marca === null){
            return response()->json(['msg' => 'Impossível realizar a atualização. O recusro solicitado não existe'], 404);
        }
+
+       $request->validate($marca->rules(), $marca->feedback());
+
        $marca->update($request->all());
        return  response()->json(['msg' => 'A marca foi atualizada com sucesso'], 200);
     }
