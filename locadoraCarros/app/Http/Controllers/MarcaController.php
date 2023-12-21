@@ -19,24 +19,16 @@ class MarcaController extends Controller
     {
         //$marcas = Marca::all();
         $marcas = $this->marca->all();
-        return response()->json($marca, 200); 
+        return response()->json($marcas, 200); 
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    } 
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-      //$marca = Marca::create($request->all());
+      
       $marca = $this->marca->create($request->all());
       return response()->json($marca, 201); 
     }
@@ -50,18 +42,10 @@ class MarcaController extends Controller
     {
         $marca = $this->marca->find($id);
         if($marca === null){
-            return response()->json(['msg' => 'Marca não encontrada'], 404);
+            return response()->json(['msg' => 'A Marca pesquisada não existe'], 404);
         }
         return response()->json($marca, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Marca $marca)
-    {
-        //
-    }
+    }  
 
     /**
      * Update the specified resource in storage.
