@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+/* Importando facade Storage */
+use Illuminate\Suport\Facades\Storage;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 
@@ -83,11 +85,25 @@ class MarcaController extends Controller
            }
            $request->validate($regrasDinamicas, $marca->feedback());
 
-       $request->validate($marca->rules(), $marca->feedback());
+        } else {
+            //se o método for PUT, então é uma atualização total
+            //valida de acordo com as regras do Model
+            $request->validate($marca->rules(), $marca->feedback());
+        }
 
-       $marca->update($request->all());
+        if($request->file('imagem')){
+            //se o usuário estiver enviando uma nova imagem, deleta a anterior
+            Storage::disk('public')->delete($marca->imagem);
+        }
+        
+        $imagem = $request->file('imagem');
+        $imagem_urn = $imagem->store('imagens', 'public');
+
+       $marca->update([
+           'nome' => $request->nome,
+           'imagem' => $imagem_urn
+       ]);
        return  response()->json(['msg' => 'A marca foi atualizada com sucesso'], 200);
-    }
 }
 
     /**
@@ -101,6 +117,11 @@ class MarcaController extends Controller
          if($marca === null){
               return response()->json(['msg' => 'Impossível realizar a exclusão. O recusro solicitado não existe'], 404);
          }
+
+         
+            //se o usuário estiver enviando uma nova imagem, deleta a anterior
+            Storage::disk('public')->delete($marca->imagem);
+
         $marca->delete();
        return response()->json(['msg' => 'A marca foi excluída com sucesso'], 200);
 
